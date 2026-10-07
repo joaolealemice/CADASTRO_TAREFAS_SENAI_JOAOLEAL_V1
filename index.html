@@ -5,31 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Painel de Tarefas</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css%22&gt">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="cartao-aplicacao">
-        <header class="cabecalho"-aplicacao>
-            <h1>Minhas Tarefas</h1>
-            <button class="botao-icone" id="botao-alternar-tema">
+        <header class="cabecalho-aplicacao banner">
+            <div class="identidade">
+                <img class="avatar" src="perfil.jpg" alt="Foto de perfil">
+                <h1>Minhas Tarefas</h1>
+            </div>
+            <button class="botao-icone" id="botao-alternar-tema" aria-label="Alternar tema">
                 <i class="fa-solid fa-moon"></i>
             </button>
         </header>
-        <div class="caixa-entrada">
-            <input type="text" id="campo-tarefa" placeholder="O que vamos fazer hoje?..." maxlength="40">
-            <button class="botao-principal" id="botao-adicionar">
-                <i class="fa-solid fa-plus"></i>Adicionar
-            </button>
+
+        <div class="conteudo-aplicacao">
+            <div class="painel-info">
+                <span class="saudacao" id="saudacao">Olá!</span>
+                <div class="data-hora">
+                    <span class="relogio" id="relogio">--:--:--</span>
+                    <span class="data" id="data">--</span>
+                </div>
+            </div>
+            <div class="caixa-entrada">
+                <input type="text" id="campo-tarefa" placeholder="O que vamos fazer hoje?..." maxlength="40">
+                <button class="botao-principal" id="botao-adicionar">
+                    <i class="fa-solid fa-plus"></i>Adicionar
+                </button>
+            </div>
+            <ul class="lista-tarefas" id="lista-tarefas">
+                <!-- As tarefas serão inseridas dinamicamente
+                    via JavaScript -->
+            </ul>
+            <footer class="rodape-aplicacao">
+                <span id="contador-tarefas">0 tarefas na lista</span>
+            </footer>
         </div>
-        <ul class="lista-tarefas" id="lista-tarefas">
-            <!-- As tarefas serão inseridas dinamicamente
-                via Javascript-->
-        </ul>
-        <footer class="rodape-aplicacao">
-            <span id="contador-tarefas">0 tarefas na lista</span>
-        </footer>
     </div>
-   
-    <script src="script.js"></script>
+
+<script src="script.js"></script>
 </body>
 </html>

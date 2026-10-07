@@ -1,21 +1,24 @@
-/* Variaveis CSS - facilitar o uso de temas para formataçao */
+/* Variáveis CSS - facilitar o uso de temas para formatação */
 :root{
-    --gradiente-fundo:linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    --gradiente-fundo: linear-gradient(135deg, #ffffff 0%, #0f766e 100%);
     --fundo-cartao: #ffffff;
-    --cor-texto: #2d3748;
-    --cor-primaria: #6c5ce7;
-    --cor-primaria-destaque: #5b4bc4;
-    --cor-borda: #edf2f7;
+    --cor-texto: #1f2d2b;
+    --cor-primaria: #0f766e;
+    --cor-primaria-destaque: #115e59;
+    --cor-borda: #e3f0ee;
     --cor-perigo: #ff7675;
-    --cor-concluido: #a0aec0;
+    --cor-concluido: #8a9a98;
 }
 
 /* Modo escuro (ativado via classe no body) */
 body.modo-escuro{
-    --gradiente-fundo:linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
-    --fundo-cartao: #1a202c;
-    --cor-texto: #f7fafc;
-    --cor-borda: #4a5568;
+    --gradiente-fundo: linear-gradient(135deg, #3a3a3a 0%, #000000 100%);
+    --fundo-cartao: #1b1b1b;
+    --cor-texto: #f5f5f5;
+    --cor-primaria: #ff7a1a;
+    --cor-primaria-destaque: #e66a0d;
+    --cor-borda: #333333;
+    --cor-concluido: #8c8c8c;
 }
 
 *{
@@ -28,6 +31,7 @@ body.modo-escuro{
 
 body{
     background: var(--gradiente-fundo);
+    background-repeat: no-repeat;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -39,30 +43,143 @@ body{
     background: var(--fundo-cartao);
     color: var(--cor-texto);
     width: 100%;
-    max-width: 420px;
+    max-width: 480px;
     border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    overflow: hidden; /* arredonda os cantos do banner junto com o cartão */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
 }
 
-.cabecalho-aplicacao{
+/* ===== BANNER ===== */
+.banner{
+    position: relative;
+    height: 160px;
+    isolation: isolate;
+    color: #ffffff;
+}
+
+/* Duas camadas de imagem (claro e escuro) para dar a troca suave por fade.
+   Cada camada já inclui o degradê escuro (transparente -> preto) por cima da foto. */
+.banner::before,
+.banner::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: opacity 0.6s ease;
+}
+
+/* Modo claro: parte de baixo do pôster (pessoas no carro) */
+.banner::before{
+    background-image:
+        linear-gradient(to bottom, rgba(0,0,0,0) 35%, rgba(0,0,0,0.8) 100%),
+        url("banner-claro.jpg");
+    background-position: center, center;
+}
+
+/* Modo escuro: parte de cima do pôster (moto, patinete e skate); começa invisível e aparece por cima */
+.banner::after{
+    background-image:
+        linear-gradient(to bottom, rgba(0,0,0,0) 35%, rgba(0,0,0,0.8) 100%),
+        url("banner-escuro.jpg");
+    background-position: center, center;
+    opacity: 0;
+}
+
+body.modo-escuro .banner::after{
+    opacity: 1;
+}
+
+.identidade{
+    position: absolute;
+    left: 24px;
+    right: 80px;
+    bottom: 16px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
+    gap: 12px;
+}
+
+.avatar{
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .cabecalho-aplicacao h1{
-    font-size: 1.5rem;
+    min-width: 0;
+    font-size: 1.6rem;
     font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    overflow-wrap: anywhere;
 }
 
 .botao-icone{
-    background: transparent;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.45);
     border: none;
-    font-size: 1.2rem;
-    color: var(--cor-texto);
+    border-radius: 50%;
+    font-size: 1.1rem;
+    color: #ffffff;
     cursor: pointer;
+    backdrop-filter: blur(4px);
+}
+
+.botao-icone:hover{
+    background: rgba(0, 0, 0, 0.65);
+}
+
+/* ===== CONTEÚDO ABAIXO DO BANNER ===== */
+.conteudo-aplicacao{
+    padding: 24px;
+}
+
+/* Saudação, relógio e data */
+.painel-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--cor-borda);
+}
+
+.saudacao{
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.data-hora{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.relogio{
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    font-variant-numeric: tabular-nums;
+}
+
+.data{
+    font-size: 0.8rem;
+    color: var(--cor-concluido);
+    text-transform: capitalize;
 }
 
 .caixa-entrada{
@@ -73,6 +190,7 @@ body{
 
 input[type="text"]{
     flex: 1;
+    min-width: 0; /* permite o campo encolher no celular */
     padding: 12px 15px;
     border: 2px solid var(--cor-borda);
     border-radius: 12px;
@@ -87,6 +205,11 @@ input[type="text"]:focus{
 }
 
 .botao-principal{
+    flex-shrink: 0;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     background: var(--cor-primaria);
     color: white;
     border: none;
@@ -94,7 +217,7 @@ input[type="text"]:focus{
     border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.1, background 0.2;
+    transition: transform 0.1s, background 0.2s;
 }
 
 .botao-principal:hover{
@@ -112,11 +235,18 @@ input[type="text"]:focus{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
     padding: 12px;
     background: var(--cor-borda);
     border-radius: 10px;
     margin-bottom: 10px;
     animation: aparecer 0.3s ease;
+}
+
+.item-tarefa span{
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere; /* quebra palavras longas em vez de cortar */
 }
 
 .item-tarefa.concluido span{
@@ -126,6 +256,7 @@ input[type="text"]:focus{
 
 .acoes-tarefa{
     display: flex;
+    flex-shrink: 0;
     gap: 8px;
 }
 
@@ -154,5 +285,31 @@ input[type="text"]:focus{
     }
     to{
         opacity: 1; transform: translateY(0);
+    }
+}
+
+/* ===== CELULAR ===== */
+@media (max-width: 480px){
+    body{
+        padding: 12px;
+    }
+    .banner{
+        height: 140px;
+    }
+    .identidade{
+        left: 18px;
+    }
+    .avatar{
+        width: 48px;
+        height: 48px;
+    }
+    .cabecalho-aplicacao h1{
+        font-size: 1.3rem;
+    }
+    .conteudo-aplicacao{
+        padding: 18px;
+    }
+    .botao-principal{
+        padding: 12px 14px;
     }
 }
